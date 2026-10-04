@@ -5,3 +5,4 @@ class SettingsForm(StatesGroup):
     csrf = State()
     phpsessid = State()
     golden_key = State()
+    data = State()

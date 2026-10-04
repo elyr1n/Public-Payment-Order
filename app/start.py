@@ -13,7 +13,14 @@ async def start(message: Message, state: FSMContext):
     await message.answer(
         "здарова нахуй!!!\n"
         "короче ты тут можешь получить ссылку на оплату с FunPay для прогрева гоев!!!",
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text="Настроить", callback_data="settings")]
-        ])
+        reply_markup=InlineKeyboardMarkup(
+            inline_keyboard=[
+                [InlineKeyboardButton(text="Настроить", callback_data="settings")],
+                [
+                    InlineKeyboardButton(
+                        text="Получить ссылку с QR-кода", callback_data="get_link_qr"
+                    )
+                ],
+            ]
+        ),
     )
