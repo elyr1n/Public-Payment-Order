@@ -8,7 +8,7 @@ from json.decoder import JSONDecodeError
 
 from app.settings.states import SettingsForm
 from app.settings.config import neccesary_data
-from app.qr.api import request_funpay
+from app.url.request_api import request_funpay
 
 router = Router()
 
@@ -64,7 +64,7 @@ async def settings_data(message: Message, state: FSMContext):
 
         answer = await request_funpay()
         await message.answer(answer)
+
+        await state.clear()
     except JSONDecodeError:
         await message.answer("долбаеб нормальный жсон отправь сука")
-
-    await state.clear()

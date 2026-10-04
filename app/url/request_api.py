@@ -2,6 +2,7 @@ import httpx
 import re
 
 from app.settings.config import neccesary_data
+from app.url.get_submit_url import get_submit_url
 
 headers = {
     "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -28,4 +29,7 @@ async def request_funpay():
         if json["error"] > 0:
             return json["msg"]
 
-        return re.search(r"https://.*/receipt", json["form"]).group()
+        link = re.search(r"https://.*/receipt", json["form"]).group()
+        payment_id = link.split("/")[3]
+
+        return await get_submit_url(payment_id)
