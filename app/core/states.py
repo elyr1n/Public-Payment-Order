@@ -61,7 +61,7 @@ async def settings_data(message: Message, state: FSMContext):
         neccesary_data["data"].clear()
         neccesary_data["data"] = json.loads(message.text)
 
-        await message.answer("ща будет пиздец")
+        await message.answer("ща будет пиздец (ждать примерно 30-60 секунд)")
 
         answer = await request_funpay()
         await message.answer(answer)

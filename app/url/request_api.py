@@ -26,8 +26,11 @@ async def request_funpay():
         )
         json = response.json()
 
-        if json["error"] > 0:
-            return json["msg"]
+        try:
+            if json["error"] > 0:
+                return json["msg"]
+        except KeyError:
+            return "походу твой аккаунт твой акк забанили лоооох"
 
         link = re.search(r"https://.*/receipt", json["form"]).group()
         payment_id = link.split("/")[3]

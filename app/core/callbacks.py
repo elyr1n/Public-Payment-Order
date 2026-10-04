@@ -6,14 +6,20 @@ from aiogram.fsm.context import FSMContext
 
 from app.settings.states import SettingsForm
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 router = Router()
+
+admins = os.getenv("ADMINS").split(", ")
 
 
 @router.callback_query(F.data == "settings")
 async def settings(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
 
-    if int(os.getenv("ADMINS")) != callback.from_user.id:
+    if str(callback.from_user.id) not in admins:
         return await callback.message.edit_text(
             "леее пошел нахуй ты не можешь ботом пользоваться"
         )
@@ -26,7 +32,7 @@ async def settings(callback: CallbackQuery, state: FSMContext):
 async def get_public_link(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
 
-    if int(os.getenv("ADMINS")) != callback.from_user.id:
+    if str(callback.from_user.id) not in admins:
         return await callback.message.edit_text(
             "леее пошел нахуй ты не можешь ботом пользоваться"
         )
