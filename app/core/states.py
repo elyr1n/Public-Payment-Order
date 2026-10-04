@@ -44,7 +44,8 @@ async def settings_golden_key(message: Message, state: FSMContext):
             inline_keyboard=[
                 [
                     InlineKeyboardButton(
-                        text="Получить ссылку с QR-кода", callback_data="get_link_qr"
+                        text="Получить общедоступную ссылку",
+                        callback_data="get_public_link",
                     )
                 ]
             ]

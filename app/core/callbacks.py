@@ -22,8 +22,8 @@ async def settings(callback: CallbackQuery, state: FSMContext):
     await callback.message.edit_text("напиши свой CSRF, ДЕБИЛ!!!")
 
 
-@router.callback_query(F.data == "get_link_qr")
-async def settings(callback: CallbackQuery, state: FSMContext):
+@router.callback_query(F.data == "get_public_link")
+async def get_public_link(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
 
     if int(os.getenv("ADMINS")) != callback.from_user.id:

@@ -18,7 +18,8 @@ async def start(message: Message, state: FSMContext):
                 [InlineKeyboardButton(text="Настроить", callback_data="settings")],
                 [
                     InlineKeyboardButton(
-                        text="Получить ссылку с QR-кода", callback_data="get_link_qr"
+                        text="Получить общедоступную ссылку",
+                        callback_data="get_public_link",
                     )
                 ],
             ]
