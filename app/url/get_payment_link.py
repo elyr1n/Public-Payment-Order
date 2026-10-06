@@ -20,10 +20,13 @@ async def get_payment_link(payment_id):
                 message = json["message"]
 
                 try:
-                    if len(data) != 0 and data["payment"] != None:
+                    if len(data) != 0:
                         payment_link = data["payment"]["payment_data"]["payment_link"]
                     else:
                         payment_link = message
+
+                    if data["payment"] == None:
+                        payment_link = "да блин не удалось отправить ссылку, попробуй ещё раз гандон"
                 except TypeError as e:
                     if data["state"] == "expired":
                         payment_link = "прогорел ебать твой счёт"
@@ -31,7 +34,7 @@ async def get_payment_link(payment_id):
         page.on("response", on_response)
 
         await page.goto(f"https://payform.aurapay.tech/{payment_id}")
-        await page.wait_for_timeout(15000)
+        await page.wait_for_timeout(25000)
 
         await browser.close()
 
