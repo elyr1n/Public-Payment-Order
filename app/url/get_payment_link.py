@@ -3,33 +3,35 @@ from playwright.async_api import async_playwright
 
 async def get_payment_link(payment_id):
     payment_link = ""
+    catch = False
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=False)
+        browser = await p.chromium.launch()
         page = await browser.new_page()
 
         async def on_response(resp):
+            nonlocal payment_link, catch
+
+            if "/process" in resp.request.url and resp.request.method == "POST":
+                catch = True
+
             if (
-                f"api/v2/pay-form/invoice/{payment_id}" in resp.url
+                catch
+                and f"api/v2/pay-form/invoice/{payment_id}" in resp.url
                 and not "/fingerprint" in resp.url
+                and not "/process" in resp.url
             ):
-                nonlocal payment_link
-
-                json = await resp.json()
-                data = json["data"]
-                message = json["message"]
-
                 try:
-                    if len(data) != 0:
+                    json = await resp.json()
+                    data = json["data"]
+                    message = json["message"]
+
+                    if len(data) != 0 and data["payment"] != None:
                         payment_link = data["payment"]["payment_data"]["payment_link"]
                     else:
                         payment_link = message
-
-                    if data["payment"] == None:
-                        payment_link = "да блин не удалось отправить ссылку, попробуй ещё раз гандон"
-                except TypeError as e:
-                    if data["state"] == "expired":
-                        payment_link = "прогорел ебать твой счёт"
+                except Exception as e:
+                    payment_link = f"ошибка: {e}"
 
         page.on("response", on_response)
 
@@ -37,5 +39,7 @@ async def get_payment_link(payment_id):
         await page.wait_for_timeout(25000)
 
         await browser.close()
+
+        catch = False
 
         return payment_link
