@@ -20,7 +20,9 @@ async def main():
     dp.include_router(callbacks)
     dp.include_router(states)
 
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(filename="info.log", level=logging.INFO)
+
+    print("Бот запущен!")
 
     await dp.start_polling(bot)
 
