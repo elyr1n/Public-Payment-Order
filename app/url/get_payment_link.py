@@ -2,7 +2,14 @@ from playwright.async_api import async_playwright
 
 
 async def get_payment_link(payment_id):
-    payment_link = ""
+    payment_link = (
+        "если ты видишь это сообщение: то произошла какая-то ошибка\n\n"
+        "причины:\n"
+        "1. счет не найден\n"
+        "2. счет просрочен\n"
+        "3. ссылка не успела подгрузиться\n\n"
+        "в лучшем случае - попробовать 2-3 раза ещё раз, либо полностью менять ссылку"
+    )
     catch = False
 
     async with async_playwright() as p:

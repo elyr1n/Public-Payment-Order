@@ -13,10 +13,7 @@ router = Router()
 async def invoice_id(message: Message, state: FSMContext):
     await message.answer("ща будет крутой пиздец")
 
-    try:
-        answer = await get_payment_link(message.text)
-        await message.answer(answer)
-    except TelegramBadRequest as e:
-        await message.answer(f"ошибка: {e}")
+    answer = await get_payment_link(message.text)
+    await message.answer(answer)
 
     await state.clear()
